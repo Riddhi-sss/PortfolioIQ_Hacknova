@@ -1,15 +1,17 @@
-# Data Acquisition
-yfinance>=0.2.38
-pandas>=2.2.0
-numpy>=1.26.0
+# Data Acquisition & Finance
+yfinance>=0.2.40
 
-# Visualization (Task 02 & 03)
-matplotlib>=3.8.0
-seaborn>=0.13.0
+# Data Manipulation
+pandas>=2.0.0
+numpy>=1.24.0
 
-# ML & Analysis (Task 06)
-scikit-learn>=1.4.0
-scipy>=1.12.0
+# Machine Learning & Persistence
+scikit-learn>=1.2.0
+joblib>=1.3.0
 
-# Automation (Optional helper for n8n/API tasks)
-requests>=2.31.0
+# Visualization (for analysis.ipynb)
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Environment Utilities
+python-dotenv>=1.0.0
