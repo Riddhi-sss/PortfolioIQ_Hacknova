@@ -1,34 +1,36 @@
-# --- TASK 05: Cloud Orchestration Logic (Fixed for n8n) ---
+import subprocess
+import time
+import os
+import sys
 
-# We simulate the data processing here
-# In n8n, we must return a LIST of DICTIONARIES 
-# Each dictionary MUST have a "json" key
-
-output = []
-
-# Mock stock data simulation
-stocks = [
-    {"ticker": "TCS.NS", "change": 0.0299},
-    {"ticker": "ICICIBANK.NS", "change": 0.0050},
-    {"ticker": "SUNPHARMA.NS", "change": -0.0120}
-]
-
-for s in stocks:
-    status = "NEUTRAL"
-    message = "Stable"
+def run_supervisor():
+    # 1. Dynamically find the path to main_inference.py
+    # Since automation.py is in 'scripts and notebooks', we stay in the current dir
+    script_path = os.path.join(os.getcwd(), "main_inference.py")
     
-    if abs(s["change"]) > 0.02:
-        status = "ALERT"
-        message = f"High Volatility: {s['ticker']} moved {s['change']*100:.2f}%"
-    
-    # This is the specific format n8n requires:
-    output.append({
-        "json": {
-            "ticker": s["ticker"],
-            "change_pct": s["change"] * 100,
-            "status": status,
-            "alert_message": message
-        }
-    })
+    # 2. Use the same Python that is running this script (your hacknova_env)
+    python_executable = sys.executable
 
-return output
+    print(f"🚀 [Supervisor] Starting Quant Engine at: {time.ctime()}")
+    
+    while True:
+        try:
+            # Run main_inference.py as a subprocess
+            process = subprocess.Popen([python_executable, script_path])
+            
+            # Wait for it to finish (or crash)
+            process.wait()
+            
+            print(f"⚠️ [Supervisor] Engine stopped at {time.ctime()}. Restarting in 10s...")
+            time.sleep(10)
+            
+        except KeyboardInterrupt:
+            print("\n🛑 [Supervisor] Manual shutdown initiated. Exiting...")
+            process.terminate()
+            break
+        except Exception as e:
+            print(f"❌ [Supervisor] Fatal Error: {e}")
+            time.sleep(30)
+
+if __name__ == "__main__":
+    run_supervisor()
