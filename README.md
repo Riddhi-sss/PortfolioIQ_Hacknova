@@ -2,7 +2,6 @@
 
 ### **Project Overview**
 A professional-grade Machine Learning system designed to predict short-term price movements across the Indian Equity Market. This project evolved from a single-stock script into a modular, **Multi-Asset Inference Engine** that uses a Random Forest Classifier to identify high-probability trading signals.
-
 ---
 
 ## **🏗️ System Architecture**
